@@ -34,4 +34,4 @@ while True:
 
 	print "Distance:",distance,"cm"
 
-	GPIO.cleanup()
+GPIO.cleanup()
