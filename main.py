@@ -1,7 +1,9 @@
 import RPi.GPIO as GPIO
 import time
-GPIO.setmode(GPIO.BCM)
 
+GPIO.cleanup()
+
+GPIO.setmode(GPIO.BCM)
 
 def getDistance(trig, echo):
     GPIO.output(trig, True)
