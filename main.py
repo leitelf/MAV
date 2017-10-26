@@ -47,5 +47,7 @@ while True:
 
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
-
+    else:
+        print "No car waiting"
+        
 GPIO.cleanup()
