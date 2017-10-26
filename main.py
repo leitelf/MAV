@@ -51,7 +51,7 @@ GPIO.setup(MOTOR, GPIO.OUT)
 PWM=GPIO.PWM(MOTOR, 50)
 PWM.start(0)
 
-setAngle(0, MOTOR, PWM)
+setAngle(90, MOTOR, PWM)
 
 GPIO.output(TRIG1, False)
 GPIO.output(TRIG2, False)
@@ -67,9 +67,9 @@ while True:
 
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
-        setAngle(90, MOTOR, PWM) #open
+        setAngle(0, MOTOR, PWM) #open
         time.sleep(10)
-        setAngle(0, MOTOR, PWM) #close
+        setAngle(90, MOTOR, PWM) #close
     else:
         print "No car waiting"
 
