@@ -24,7 +24,7 @@ def setAngle(angle, pin, pwm):
     duty = angle/18 + 2
     GPIO.output(pin, True)
     pwm.ChangeDutyCycle(duty)
-    sleep(1)
+    time.sleep(1)
     GPIO.output(pin, False)
     pwm.ChangeDutyCycle(0)
 
@@ -68,7 +68,7 @@ while True:
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
         setAngle(90, MOTOR, PWM) #open
-        sleep(10)
+        time.sleep(10)
         setAngle(0, MOTOR, PWM) #close
     else:
         print "No car waiting"
