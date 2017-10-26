@@ -45,7 +45,7 @@ while True:
     distance1 = getDistance(TRIG1, ECHO1)
     distance2 = getDistance(TRIG2, ECHO2)
 
-    if(distance1 < 20.0) && (distance2 < 20.0):
+    if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
 
 GPIO.cleanup()
