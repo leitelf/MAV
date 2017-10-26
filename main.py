@@ -2,26 +2,6 @@ import RPi.GPIO as GPIO
 import time
 GPIO.setmode(GPIO.BCM)
 
-#RFID pinouts
-
-TRIG1 = 23 #pin 16
-ECHO1 = 24 #pin 18
-
-TRIG2 = 14 #pin 8
-ECHO2 = 15 #pin 10
-
-MOTOR = 36 #pin 36
-
-GPIO.setup(TRIG1, GPIO.OUT)
-GPIO.setup(TRIG2, GPIO.OUT)
-
-GPIO.setup(ECHO1, GPIO.IN)
-GPIO.setup(ECHO2, GPIO.IN)
-
-GPIO.output(TRIG1, False)
-GPIO.output(TRIG2, False)
-
-time.sleep(2)
 
 def getDistance(trig, echo):
     GPIO.output(trig, True)
@@ -40,6 +20,46 @@ def getDistance(trig, echo):
 
     return distance
 
+def setAngle(angle, pin, pwm):
+    duty = angle/18 + 2
+    GPIO.output(pin, True)
+    pwm.ChangeDutyCycle(duty)
+    sleep(1)
+    GPIO.output(pin, False)
+    pwm.ChangeDutyCycle(0)
+
+
+
+#RFID pinouts
+
+TRIG1 = 23 #pin 16
+ECHO1 = 24 #pin 18
+
+TRIG2 = 14 #pin 8
+ECHO2 = 15 #pin 10
+
+MOTOR = 16 #pin 36
+
+GPIO.setup(TRIG1, GPIO.OUT)
+GPIO.setup(TRIG2, GPIO.OUT)
+
+GPIO.setup(ECHO1, GPIO.IN)
+GPIO.setup(ECHO2, GPIO.IN)
+
+GPIO.setup(MOTOR, GPIO.OUT)
+
+PWM=GPIO.PWM(MOTOR, 50)
+PWM.start(0)
+
+setAngle(0, MOTOR, PWM)
+
+GPIO.output(TRIG1, False)
+GPIO.output(TRIG2, False)
+
+time.sleep(2)
+
+
+
 while True:
 
     distance1 = getDistance(TRIG1, ECHO1)
@@ -47,7 +67,10 @@ while True:
 
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
+        setAngle(90, MOTOR, PWM) #open
+        sleep(10)
+        setAngle(0, MOTOR, PWM) #close
     else:
         print "No car waiting"
-        
+
 GPIO.cleanup()
