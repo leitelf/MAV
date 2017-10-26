@@ -68,7 +68,7 @@ while True:
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
         setAngle(0, MOTOR, PWM) #open
-        time.sleep(10)
+        time.sleep(6)
         setAngle(90, MOTOR, PWM) #close
     else:
         print "No car waiting"
