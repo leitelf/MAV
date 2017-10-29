@@ -1,7 +1,17 @@
 import RPi.GPIO as GPIO
 import time
+import MFRC522
+import signal
 
 GPIO.setmode(GPIO.BCM)
+
+nonstop = True
+
+def stop_node(signal,frame):
+    global nonstop
+    print "Ctrl+C captured, ending read."
+    nonstop = False
+    GPIO.cleanup()
 
 def getDistance(trig, echo):
     GPIO.output(trig, True)
@@ -28,6 +38,10 @@ def setAngle(angle, pin, pwm):
     GPIO.output(pin, False)
     pwm.ChangeDutyCycle(0)
 
+
+signal.signal(signal.SIGINT, stop_node)
+
+MIFAREReader = MFRC522.MFRC522()
 
 
 #RFID pinouts
@@ -59,18 +73,62 @@ GPIO.output(TRIG2, False)
 time.sleep(2)
 
 
+print "Press Ctrl-C to stop."
 
-while True:
+allowed = False
+
+while nonstop:
+
+    #allowed = checkRFID(getRFID())
+    (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+    if status == MIFAREReader.MI_OK:
+        print "Card detected"
+
+    (status,uid) = MIFAREReader.MFRC522_Anticoll()
+
+    if status == MIFAREReader.MI_OK:
+        print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+        # This is the default key for authentication
+        key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+
+        # Select the scanned tag
+        MIFAREReader.MFRC522_SelectTag(uid)
+
+        # Authenticate
+        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+
+        # Check if authenticated
+        if status == MIFAREReader.MI_OK:
+            MIFAREReader.MFRC522_Read(8)
+            MIFAREReader.MFRC522_StopCrypto1()
+            #send uid to server
+            #server return if is valid
+
+            #for test
+            if uid[0] == 192:
+                allowed = True
+        else:
+            print "Authentication error"
+
+
+    if allowed:
+        setAngle(0, MOTOR, PWM) #open
+        time.sleep(8)
+        setAngle(90, MOTOR, PWM) #close
+        allowed = False
 
     distance1 = getDistance(TRIG1, ECHO1)
     distance2 = getDistance(TRIG2, ECHO2)
 
     if (distance1 < 20.0) and (distance2 < 20.0):
         print "Car Waiting"
+        #if !allowed
+            #getPicture
+            #sendToServer
+
         setAngle(0, MOTOR, PWM) #open
         time.sleep(6)
         setAngle(90, MOTOR, PWM) #close
     else:
         print "No car waiting"
-
-GPIO.cleanup()
