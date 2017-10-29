@@ -3,7 +3,7 @@ import time
 import MFRC522
 import signal
 
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
 
 nonstop = True
 
@@ -46,13 +46,13 @@ MIFAREReader = MFRC522.MFRC522()
 
 #RFID pinouts
 
-TRIG1 = 23 #pin 16
-ECHO1 = 24 #pin 18
+TRIG1 = 16 #pin 16, GPIO 23
+ECHO1 = 18 #pin 18, GPIO 24
 
-TRIG2 = 14 #pin 8
-ECHO2 = 15 #pin 10
+TRIG2 = 8 #pin 8, GPIO 14
+ECHO2 = 10 #pin 10, GPIO 15
 
-MOTOR = 16 #pin 36
+MOTOR = 36 #pin 36, GPIO 16
 
 GPIO.setup(TRIG1, GPIO.OUT)
 GPIO.setup(TRIG2, GPIO.OUT)
