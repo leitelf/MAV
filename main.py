@@ -121,8 +121,8 @@ def main():
 
 		# Check if authenticated
 		if status == MIFAREReader.MI_OK:
-		    MIFAREReader.MFRC522_Read(8)
-		    MIFAREReader.MFRC522_StopCrypto1()
+		    #MIFAREReader.MFRC522_Read(8)
+		    #MIFAREReader.MFRC522_StopCrypto1()
 		    #send uid to server
 		    #server return if is valid
 
@@ -137,6 +137,8 @@ def main():
 
 		    if response.payload == '1':
 		    	allowed = True
+				print "Card allowed"
+
 			if response.payload == '0':
 				allowed = False
 				print "Card not allowed"
