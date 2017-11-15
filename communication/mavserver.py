@@ -34,13 +34,13 @@ class RFIDResource(Resource):
         return self, response
 
     def render_PUT_separate(self, request, response):
-        self.payload = request.payload
+		self.payload = request.payload
 		#check RFID
-		if request.payload == '192.1.0.0':
+		if request.payload == '192.227.68.26':
 			response.payload = '1'
 		else:
 			response.payload = '0'
-        return self, response
+		return self, response
 
     def render_DELETE_separate(self, request, response):
         response.payload = "Response deleted"
