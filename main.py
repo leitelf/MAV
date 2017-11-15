@@ -136,7 +136,7 @@ def main():
         	    client.stop()
 
 		    if response.payload == '1':
-		    	allowed = True
+				allowed = True
 				print "Card allowed"
 
 			if response.payload == '0':
