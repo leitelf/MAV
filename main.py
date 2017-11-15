@@ -162,3 +162,6 @@ def main():
 		setAngle(90, MOTOR, PWM) #close
 	    #else:
 		#print "No car waiting"
+
+# script
+main()
