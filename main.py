@@ -7,6 +7,7 @@ import sys
 from coapthon.client.helperclient import HelperClient
 
 
+
 GPIO.setmode(GPIO.BOARD)
 
 nonstop = True
@@ -136,6 +137,8 @@ def main():
 
 		    if response.payload == '1':
 		    	allowed = True
+			else if response.payload == '0':
+				allowed = False
 		    #for test
 		    #consultar RFID
 		    #if uid[0] == 192:
@@ -145,16 +148,17 @@ def main():
 
 
 	    if allowed:
-		setAngle(0, MOTOR, PWM) #open
-		time.sleep(8)
-		setAngle(90, MOTOR, PWM) #close
-		allowed = False
+			setAngle(0, MOTOR, PWM) #open
+			time.sleep(8)
+			setAngle(90, MOTOR, PWM) #close
+			allowed = False
+
 
 	    distance1 = getDistance(TRIG1, ECHO1)
 	    distance2 = getDistance(TRIG2, ECHO2)
 
 	    if (distance1 < 20.0) and (distance2 < 20.0):
-		print "Car Waiting"
+		print "Car waiting"
 		#if !allowed
 		    #getPicture
 		    #sendToServer
