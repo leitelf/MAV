@@ -104,63 +104,40 @@ def main():
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
         if status == MIFAREReader.MI_OK:
-            print "Card detected"
+            print "RFID detectado"
 
             (status,uid) = MIFAREReader.MFRC522_Anticoll()
+            client = HelperClient(server=(host, port))
+            payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
+            path = "/rfid"
 
-            if status == MIFAREReader.MI_OK:
-                # print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
-                # This is the default key for authentication
-                key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+            response = client.put(path, payload)
+            #print response.pretty_print()
+            client.stop()
 
-                # Select the scanned tag
-                MIFAREReader.MFRC522_SelectTag(uid)
+            if response.payload == '1':
+                allowed = True
+                print "RFID conhecido"
 
-                # Authenticate
-                status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
-
-                # Check if authenticated
-                if status == MIFAREReader.MI_OK:
-                    #MIFAREReader.MFRC522_Read(8)
-                    #MIFAREReader.MFRC522_StopCrypto1()
-                    #send uid to server
-                    #server return if is valid
-
-                    client = HelperClient(server=(host, port))
-
-                    payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
-                    path = "/rfid"
-
-                    response = client.put(path, payload)
-                    #print response.pretty_print()
-                    client.stop()
-
-                    if response.payload == '1':
-                        allowed = True
-                        print "Card allowed"
-
-                    if response.payload == '0':
-                        allowed = False
-                        print "Card not allowed"
+            if response.payload == '0':
+                allowed = False
+                print "RFID nao conhecido"
                     #for test
                     #consultar RFID
                     #if uid[0] == 192:
                     #    allowed = True
-                else:
-                    print "Authentication error"
 
+            if allowed:
+                setAngle(0, MOTOR, PWM) #open
+                time.sleep(8)
+                setAngle(90, MOTOR, PWM) #close
+                allowed = False
 
-                if allowed:
-                    setAngle(0, MOTOR, PWM) #open
-                    time.sleep(8)
-                    setAngle(90, MOTOR, PWM) #close
-                    allowed = False
-            
         distance1 = getDistance(TRIG1, ECHO1)
         distance2 = getDistance(TRIG2, ECHO2)
 
         if (distance1 < 20.0) and (distance2 < 20.0):
-            print "Car waiting"
+            print "Carro esperando"
             #if !allowed
                 #getPicture
                 #sendToServer
