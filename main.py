@@ -137,8 +137,9 @@ def main():
 
 		    if response.payload == '1':
 		    	allowed = True
-			else if response.payload == '0':
-				allowed = False
+			else: 
+				if response.payload == '0':
+					allowed = False
 		    #for test
 		    #consultar RFID
 		    #if uid[0] == 192:
