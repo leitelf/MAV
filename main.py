@@ -132,8 +132,8 @@ def main():
                     path = "/rfid"
 
                     response = client.put(path, payload)
-                        #print response.pretty_print()
-                        client.stop()
+                    #print response.pretty_print()
+                    client.stop()
 
                     if response.payload == '1':
                         allowed = True
