@@ -109,7 +109,7 @@ def main():
 	    (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
 	    if status == MIFAREReader.MI_OK:
-		print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+		# print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 		# This is the default key for authentication
 		key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
 
@@ -132,7 +132,7 @@ def main():
 		    path = "/rfid"
 
 		    response = client.put(path, payload)
-        	    print response.pretty_print()
+        	    #print response.pretty_print()
         	    client.stop()
 
 		    if response.payload == '1':
@@ -153,7 +153,9 @@ def main():
 			setAngle(90, MOTOR, PWM) #close
 			allowed = False
 
-
+		else:
+			print "Card not allowed"
+		
 	    distance1 = getDistance(TRIG1, ECHO1)
 	    distance2 = getDistance(TRIG2, ECHO2)
 
