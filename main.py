@@ -108,7 +108,7 @@ def main():
 	    (status,uid) = MIFAREReader.MFRC522_Anticoll()
 
 	    if status == MIFAREReader.MI_OK:
-		#print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
+		print "Card read UID: "+str(uid[0])+","+str(uid[1])+","+str(uid[2])+","+str(uid[3])
 		# This is the default key for authentication
 		key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
 
@@ -126,7 +126,7 @@ def main():
 		    #server return if is valid
 
 		    payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
-		    path = "coap://"+host+":"+port+"/rfid"
+		    path = "coap://"+host+":"+str(port)+"/rfid"
 		    response = client.put(path, payload)
         	    print response.pretty_print()
         	    client.stop()
