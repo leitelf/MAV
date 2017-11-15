@@ -160,17 +160,17 @@ def main():
         distance2 = getDistance(TRIG2, ECHO2)
 
         if (distance1 < 20.0) and (distance2 < 20.0):
-        print "Car waiting"
-        #if !allowed
-            #getPicture
-            #sendToServer
-        #tirar a foto
-        #enviar pro servidor
-        setAngle(0, MOTOR, PWM) #open
-        time.sleep(6)
-        setAngle(90, MOTOR, PWM) #close
-        #else:
-        #print "No car waiting"
+            print "Car waiting"
+            #if !allowed
+                #getPicture
+                #sendToServer
+            #tirar a foto
+            #enviar pro servidor
+            setAngle(0, MOTOR, PWM) #open
+            time.sleep(6)
+            setAngle(90, MOTOR, PWM) #close
+            #else:
+            #print "No car waiting"
 
 # script
 main()
