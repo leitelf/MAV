@@ -7,6 +7,9 @@ GPIO.setmode(GPIO.BOARD)
 
 nonstop = True
 
+#abrir a conexão
+#criar recursos
+
 def stop_node(signal,frame):
     global nonstop
     print "Ctrl+C captured, ending read."
@@ -106,6 +109,7 @@ while nonstop:
             #server return if is valid
 
             #for test
+            #consultar RFID
             if uid[0] == 192:
                 allowed = True
         else:
@@ -126,7 +130,8 @@ while nonstop:
         #if !allowed
             #getPicture
             #sendToServer
-
+        #tirar a foto
+        #enviar pro servidor
         setAngle(0, MOTOR, PWM) #open
         time.sleep(6)
         setAngle(90, MOTOR, PWM) #close
