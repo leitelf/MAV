@@ -125,7 +125,7 @@ def main():
 		    #send uid to server
 		    #server return if is valid
 
-		    payload = str(uid[0])+"."str(uid[1])+"."str(uid[2])+"."str(uid[3])
+		    payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
 		    path = "coap://"+host+":"+port+"/rfid"
 		    response = client.put(path, payload)
         	    print response.pretty_print()
