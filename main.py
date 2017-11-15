@@ -139,6 +139,7 @@ def main():
 		    	allowed = True
 			if response.payload == '0':
 				allowed = False
+				print "Card not allowed"
 		    #for test
 		    #consultar RFID
 		    #if uid[0] == 192:
@@ -152,9 +153,6 @@ def main():
 			time.sleep(8)
 			setAngle(90, MOTOR, PWM) #close
 			allowed = False
-
-		else:
-			print "Card not allowed"
 		
 	    distance1 = getDistance(TRIG1, ECHO1)
 	    distance2 = getDistance(TRIG2, ECHO2)
