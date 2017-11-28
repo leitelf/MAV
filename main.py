@@ -107,31 +107,44 @@ def main():
             print "RFID detectado"
 
             (status,uid) = MIFAREReader.MFRC522_Anticoll()
-            client = HelperClient(server=(host, port))
-            payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
-            path = "/rfid"
+            
+            #if have UID
+            if status == MIFAREReader.MI_OK:
+            
+                key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
+                MIFAREReader.MFRC522_SelectTag(uid)
+                
+                status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+                
+                if status == MIFAREReader.MI_OK:
+                    MIFAREReader.MFRC522_Read(8)
+                    MIFAREReader.MFRC522_StopCrypto1()
+                
+                    client = HelperClient(server=(host, port))
+                    payload = str(uid[0])+"."+str(uid[1])+"."+str(uid[2])+"."+str(uid[3])
+                    path = "/rfid"
 
-            response = client.put(path, payload)
-            #print response.pretty_print()
-            client.stop()
+                    response = client.put(path, payload)
+                    #print response.pretty_print()
+                    client.stop()
 
-            if response.payload == '1':
-                allowed = True
-                print "RFID conhecido"
+                    if response.payload == '1':
+                        allowed = True
+                        print "RFID conhecido"
 
-            if response.payload == '0':
-                allowed = False
-                print "RFID nao conhecido"
-                    #for test
+                    if response.payload == '0':
+                        allowed = False
+                        print "RFID nao conhecido"
+                        #for test
                     #consultar RFID
                     #if uid[0] == 192:
                     #    allowed = True
 
-            if allowed:
-                setAngle(0, MOTOR, PWM) #open
-                time.sleep(8)
-                setAngle(90, MOTOR, PWM) #close
-                allowed = False
+                if allowed:
+                    setAngle(0, MOTOR, PWM) #open
+                    time.sleep(8)
+                    setAngle(90, MOTOR, PWM) #close
+                    allowed = False
 
         distance1 = getDistance(TRIG1, ECHO1)
         distance2 = getDistance(TRIG2, ECHO2)
