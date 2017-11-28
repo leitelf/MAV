@@ -6,7 +6,7 @@
  */
 
 
-#include "../includes/gpio.h"
+#include "./src/gpio.h"
 
 void stop ();
 
@@ -15,40 +15,14 @@ int main(int argc, char **argv)
 
 	signal(SIGINT, stop);
 
-	int trig = GPIO23;
-	int echo = GPIO24;
+	int trig = 23;
+	int echo = 24;
 
 	clock_t begin;
 	clock_t end;
 	double duration;
 	double distance;
-	setup_gpio(echo, INPUT);
 
-	setup_gpio(trig, OUTPUT);
-	value_out_gpio(trig, LOW);
+	return gpio_access (trig);
 
-	while (true) {
-		value_out_gpio(trig, HIGH);
-		delay(0.00001);
-		value_out_gpio(trig, LOW);
-
-		while (value_in_gpio(echo) == LOW) {
-			begin = clock();
-		}
-
-		while (value_in_gpio(echo) == HIGH) {
-			end = clock();
-		}
-
-		duration = (double)(end-begin)*1000/CLOCKS_PER_SEC;
-
-		distance = duration * 17150;
-		printf("%.2f", distance);
-	}
-
-}
-
-void stop() {
-	unexport_gpio(GPIO23);
-	unexport_gpio(GPIO24);
 }
