@@ -18,8 +18,8 @@
 #include <time.h>
 #include <signal.h>
 
-typedef enum {input=0, output=1} gpio_direction;
-typedef enum {low=0, high=1} gpio_output;
+typedef enum {input=0, output=1} io;
+typedef enum {low=0, high=1} output_level;
 
 #define PATH_SIZE 35
 #define BUFFER_SIZE 3
@@ -66,5 +66,40 @@ bool gpio_unexport(int pin)
 	return true;
 }
 
+bool gpio_direction (int pin, io direction)
+{
+	int file=0;
+	char path[PATH_SIZE];
+	char buffer[BUFFER_SIZE];
+	snprintf(path, PATH_SIZE, "/sys/class/gpio/gpio%d/direction", pin);
+	file = open (path, O_WRONLY);
+	if (file==-1) {
+		return false;
+	}
+	snprintf(buffer, BUFFER_SIZE, "%d", pin);
+	if (write( file, ((direction == input)?"in":"out"), BUFFER_SIZE )==-1) {
+		close(file);
+		return false;
+	}
+	close(file);
+	return true;
+}
 
+bool gpio_setup (int pin, io direction)
+{
+	if (gpio_access(pin)) {
+		if (gpio_export(pin)) {
+			if (gpio_direction(pin, direction)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool gpio_reset (int pin)
+{
+	return gpio_unexport(pin);
+}
 #endif /* SRC_GPIO_H_ */

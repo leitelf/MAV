@@ -8,12 +8,9 @@
 
 #include "./src/gpio.h"
 
-void stop ();
-
 int main(int argc, char **argv)
 {
 
-	signal(SIGINT, stop);
 
 	int trig = 23;
 	int echo = 24;
@@ -23,11 +20,12 @@ int main(int argc, char **argv)
 	double duration;
 	double distance;
 
-	if (gpio_access(trig)) {
-		if (gpio_export(trig)) {
-			if (gpio_unexport(trig))
-				printf("Success!");
-		}
+	if (gpio_setup(23, output)) {
+		printf("Set!");
+	}
+
+	if (gpio_reset(23)) {
+		printf("Reset!");
 	}
 
 	return 0;
