@@ -35,4 +35,36 @@ bool gpio_access (int pin)
 	}
 }
 
+bool gpio_export (int pin)
+{
+	char buffer[BUFFER_SIZE];
+	int file = open ("/sys/class/gpio/export", O_WRONLY);
+	if (-1 == file) {
+		return false;
+	}
+	snprintf(buffer, BUFFER_SIZE, "%d", pin);
+	if (write(file, buffer, BUFFER_SIZE) == -1) {
+		close (file);
+		return false;
+	}
+	close (file);
+	return true;
+}
+
+bool gpio_unexport(int pin)
+{
+	char buffer[BUFFER_SIZE];
+	int file = open ("/sys/class/gpio/unexport", O_WRONLY);
+	if (file == -1)	{
+		return false;
+	}
+	if(write(file, buffer, BUFFER_SIZE) == -1)
+	{
+		close(file);
+		return false;
+	}
+	return true;
+}
+
+
 #endif /* SRC_GPIO_H_ */

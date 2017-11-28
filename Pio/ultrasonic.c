@@ -23,6 +23,12 @@ int main(int argc, char **argv)
 	double duration;
 	double distance;
 
-	return gpio_access (trig);
+	if (gpio_access(trig)) {
+		if (gpio_export(trig)) {
+			if (gpio_unexport(trig))
+				printf("Success!");
+		}
+	}
 
+	return 0;
 }
