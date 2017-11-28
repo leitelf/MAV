@@ -58,6 +58,7 @@ bool gpio_unexport(int pin)
 	if (file == -1)	{
 		return false;
 	}
+	snprintf(buffer, BUFFER_SIZE, "%d", pin);
 	if(write(file, buffer, BUFFER_SIZE) == -1)
 	{
 		close(file);
