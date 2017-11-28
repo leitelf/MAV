@@ -1,5 +1,4 @@
-all: ultrasonic
+all: main
 
-char-ext: ultrasonic.c
-	gcc ultrasonic.c -o ./bin/ultrasonic
-	
+gpio: main.c
+	gcc main.c -o ./build/main
