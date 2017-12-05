@@ -31,27 +31,47 @@ def main():
 
     signal.signal(signal.SIGINT, stop_node)
 
-    call(['./src/piio/build/ultrasonic', 'reset', '23', '24'])
+    trig1 = 23
+    echo1 = 24
 
-    print ("Iniciando sensor ultrassônico...\n")
-    return_val = call(['./src/piio/build/ultrasonic', 'setup', '23', '24'])
+    trig2 = 27
+    echo2 = 22
+    #stop GPIOs useds
+    call(['./src/piio/build/ultrasonic', 'reset', trig1, echo1])
+    call(['./src/piio/build/ultrasonic', 'reset', trig2, echo2])
+    call(['./src/piio/build/servo', 'reset'])
 
-    # ultrasonic_setup()
+    print ('Iniciando sensor ultrassônico...\n')
+    if 1 != call(['./src/piio/build/ultrasonic', 'setup', trig1, echo1]) :
+        print ('Falha ao iniciar ultrassônico 1.\n')
+        return -1
+    if 1 != call(['./src/piio/build/ultrasonic', 'setup', trig2, echo2]) :
+        print ('Falha ao iniciar ultrassônico 2.\n')
+        return -1
 
-    # servo_setup()
-    # servo_set_angle(0)
+    print ('Iniciando motor servo...\n')
+    if 1 != call(['./src/piio/build/servo', 'setup']) :
+        print ('Falha ao iniciar motor servo.\n')
+        return -1
 
-
-    time.sleep(2)
-
-    print "Pressione Ctrl-C para terminar.\n"
-
+    time.sleep(1)
     allowed = False
 
-    while nonstop:
-        distance1 = call(['./src/piio/build/ultrasonic', 'read', '23', '24'])
-        print (distance1)
+    print ('Iniciado.Pressione Ctrl-C para terminar.\n')
 
+    while nonstop:
+        distance1 = call(['./src/piio/build/ultrasonic', 'read', trig1, echo1])
+        distance2 = call(['./src/piio/build/ultrasonic', 'read', trig2, echo2])
+        if (distance1 < 20.0) and (distance2 < 20.0):
+            print ('Carro detectado...\n')
+            print ('Capturando imagem...\n')
+            #capturar imagem
+
+            print ('Abrindo portão...\n')
+            call(['./src/piio/build/servo', 'rotate', '90'])
+            time.sleep(3)
+            print ('Fechando portão...\n')
+            call(['./src/piio/build/servo', 'rotate', '0'])
 
 # script
 main()
