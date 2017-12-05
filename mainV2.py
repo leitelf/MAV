@@ -37,15 +37,15 @@ def main():
     trig2 = 27
     echo2 = 22
     #stop GPIOs useds
-    call(['./src/piio/build/ultrasonic', 'reset', trig1, echo1])
-    call(['./src/piio/build/ultrasonic', 'reset', trig2, echo2])
+    call(['./src/piio/build/ultrasonic', 'reset', str(trig1), str(echo1)])
+    call(['./src/piio/build/ultrasonic', 'reset', str(trig2), str(echo2)])
     call(['./src/piio/build/servo', 'reset'])
 
     print ('Iniciando sensor ultrassônico...\n')
-    if 1 != call(['./src/piio/build/ultrasonic', 'setup', trig1, echo1]) :
+    if 1 != call(['./src/piio/build/ultrasonic', 'setup', str(trig1), str(echo1)]) :
         print ('Falha ao iniciar ultrassônico 1.\n')
         return -1
-    if 1 != call(['./src/piio/build/ultrasonic', 'setup', trig2, echo2]) :
+    if 1 != call(['./src/piio/build/ultrasonic', 'setup', str(trig2), str(echo2)]) :
         print ('Falha ao iniciar ultrassônico 2.\n')
         return -1
 
@@ -60,8 +60,8 @@ def main():
     print ('Iniciado.Pressione Ctrl-C para terminar.\n')
 
     while nonstop:
-        distance1 = call(['./src/piio/build/ultrasonic', 'read', trig1, echo1])
-        distance2 = call(['./src/piio/build/ultrasonic', 'read', trig2, echo2])
+        distance1 = call(['./src/piio/build/ultrasonic', 'read', str(trig1), str(echo1)])
+        distance2 = call(['./src/piio/build/ultrasonic', 'read', str(trig2), str(echo2)])
         if (distance1 < 20.0) and (distance2 < 20.0):
             print ('Carro detectado...\n')
             print ('Capturando imagem...\n')
