@@ -36,7 +36,6 @@ def main():
     print ("Iniciando sensor ultrassônico...\n")
     return_val = call(['./src/piio/build/ultrasonic', 'setup', '23', '24'])
 
-    print (return_val);
     # ultrasonic_setup()
 
     # servo_setup()
@@ -51,7 +50,7 @@ def main():
 
     while nonstop:
         distance1 = call(['./src/piio/build/ultrasonic', 'read', '23', '24'])
-        print (distance1+'\n')
+        print (distance1)
 
 
 # script
