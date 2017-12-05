@@ -6,6 +6,8 @@ import sys
 from coapthon.client.helperclient import HelperClient
 from subprocess import call
 
+nonstop = True
+
 def stop_node(signal,frame):
     global nonstop
     print "Terminando...\n"
