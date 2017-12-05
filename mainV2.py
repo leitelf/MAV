@@ -16,7 +16,7 @@ def stop_node(signal,frame):
     print "Finalizado!\n"
 
 def main():
-    call(['./piio/make'])
+    call(['./src/piio/make'])
     argc = len(sys.argv)
 
     if argc != 3:
@@ -31,7 +31,7 @@ def main():
     signal.signal(signal.SIGINT, stop_node)
 
     print ("Iniciando sensor ultrassônico...\n")
-    return_val = call(['./piio/build/ultrasonic', 'setup', '23', '24'])
+    return_val = call(['./src/piio/build/ultrasonic', 'setup', '23', '24'])
 
     print (return_val);
     # ultrasonic_setup()
