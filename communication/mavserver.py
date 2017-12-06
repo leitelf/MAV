@@ -45,7 +45,7 @@ class IMGResource(Resource):
         call(['mv', './photo.jpg', '../images/'+imgName+'.jpg'])
 
         reqData = {'im_name': imgName+'.jpg', 'date': imgName}
-        response = request.post('http://127.0.0.1:3333/guests', reqData)
+        response = requests.post('http://127.0.0.1:3333/guests', reqData)
 
         response.payload = '1'
         return self, response
@@ -89,7 +89,7 @@ class RFIDResource(Resource):
         #check RFID
         savedate = strftime('%Y-%m-%d_%H-%M-%S', gmtime())
         reqData = {'rfid': response.payload, 'date': savedate}
-        response = request.post('http://127.0.0.1:3333/accesses', reqData)
+        response = requests.post('http://127.0.0.1:3333/accesses', reqData)
         if response.status_code == 200:
             response.payload = '1'
         else:
