@@ -12,7 +12,7 @@ class AccessController {
   async store ({response, request}) {
     const input = request.only(['rfid', 'date'])
     const user = await User.query().where('rfid', input.rfid).first()
-
+    console.log(input)
     if(user) {
       user.accesses().create({'date': input.date})
       response.status(200)

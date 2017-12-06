@@ -117,8 +117,8 @@ def main():
 
         distance1 = call(['./src/piio/build/ultrasonic', 'read', str(trig1), str(echo1)])
         distance2 = call(['./src/piio/build/ultrasonic', 'read', str(trig2), str(echo2)])
-        print(distance1)
-        print(distance2)
+        #print(distance1)
+        #print(distance2)
         if (distance1 < 20.0) and (distance2 < 20.0):
             print ('Carro detectado...\n')
 
