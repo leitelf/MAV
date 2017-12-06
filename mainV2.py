@@ -23,7 +23,7 @@ def open_gate () :
     call(['./src/piio/build/servo', 'rotate', '90'])
     time.sleep(3)
     print ('Fechando portão...\n')
-    call(['./src/piio/build/servo', 'rotate', '0'])
+    call(['./src/piio/build/servo', 'rotate', '180'])
 
 def main():
     argc = len(sys.argv)
@@ -75,7 +75,7 @@ def main():
     print ('Iniciando RFID...\n')
     MIFAREReader = MFRC522.MFRC522()
 
-    call(['./src/piio/build/servo', 'rotate', '0'])
+    call(['./src/piio/build/servo', 'rotate', '180'])
 
     time.sleep(1)
     allowed = False
