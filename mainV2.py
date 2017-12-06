@@ -75,6 +75,8 @@ def main():
     print ('Iniciando RFID...\n')
     MIFAREReader = MFRC522.MFRC522()
 
+    call(['./src/piio/build/servo', 'rotate', '0'])
+
     time.sleep(1)
     allowed = False
 
@@ -117,10 +119,16 @@ def main():
         distance2 = call(['./src/piio/build/ultrasonic', 'read', str(trig2), str(echo2)])
         if (distance1 < 20.0) and (distance2 < 20.0):
             print ('Carro detectado...\n')
+
             print ('Capturando imagem...\n')
             #capturar imagem
+            client = HelperClient(server=(host, port))
+            payload = 'updated'
+            path = '/img'
+            response = client.put (path, payload)
+            client.stop ()
 
             open_gate ()
 
 # script
-main()
+main ()
