@@ -84,7 +84,7 @@ def main():
 
     while nonstop:
 
-        '''(status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+        (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
         if status == MIFAREReader.MI_OK:
             print ('RFID detectado...\n')
@@ -112,14 +112,14 @@ def main():
                         open_gate ()
 
                     if response.payload == '0':
-                        print ('RFID não conhecido...\n')'''
+                        print ('RFID não conhecido...\n')
 
 
         distance1 = call(['./src/piio/build/ultrasonic', 'read', str(trig1), str(echo1)])
         distance2 = call(['./src/piio/build/ultrasonic', 'read', str(trig2), str(echo2)])
-        print(distance1)
-        print(distance2)
-        '''if (distance1 < 20.0) and (distance2 < 20.0):
+        #print(distance1)
+        #print(distance2)
+        if (distance1 < 20.0) and (distance2 < 20.0):
             print ('Carro detectado...\n')
 
             print ('Capturando imagem...\n')
@@ -130,7 +130,7 @@ def main():
             response = client.put (path, payload)
             client.stop ()
 
-            open_gate ()'''
+            open_gate ()
 
 # script
 main ()
